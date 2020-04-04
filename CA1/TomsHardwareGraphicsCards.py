@@ -12,6 +12,7 @@ from bs4 import BeautifulSoup
 
 class TomsHardwareGraphicsCards:
     def __init__(self):
+        # Access website and read graphics cards table.
         response = self.__request_web_page()
         soup = BeautifulSoup(response.content, features="html.parser")
         article_table = soup.find('div', class_='articletable')
