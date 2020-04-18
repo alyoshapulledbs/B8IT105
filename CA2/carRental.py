@@ -84,15 +84,12 @@ class CarRental():
             if car.get_registration() in registrations:
                 car.set_is_rented(False)
 
-    def is_valid_rented_car_registration(self, car_type, registration):
+    def is_rented_car_registration(self, car_type, registration):
         # Check whether registration for car type is for valid rented car.
         registrations = [car.get_registration() 
                 for car in self.__get_cars_of_type(car_type)
                 if car.get_is_rented() == True]
-        if registration in registrations:
-            return True
-        else:
-            return False
+        return (registration in registrations)
             
     ### Private functions
 
@@ -145,5 +142,3 @@ class CarRental():
         car.set_is_rented(True)
         #print(car.get_is_rented(), car.get_registration())
         return car.get_registration()
-
-

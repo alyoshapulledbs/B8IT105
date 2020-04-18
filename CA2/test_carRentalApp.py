@@ -12,7 +12,7 @@ from car import Car, DieselCar, ElectricCar, HybridCar, PetrolCar
 from carRental import CarRental
 
 class TestCarRentalApp(unittest.TestCase):
-
+    
     def test_car(self):
         car = Car('Volksvagen', 'Passat', 'White', '01 P 1234')
         self.assertEqual(car.get_make(), 'Volksvagen')
@@ -65,12 +65,30 @@ class TestCarRentalApp(unittest.TestCase):
         self.assertEqual(str(car), 'Petrol,Volksvagen,Passat,White,01 P 1234,False,2,,\n')
 
     def test_car_rental(self):
+        # Load
         car_rental = CarRental()
-        car_rental.load_current_stock('CarRentalStock.csv')
+        car_rental.load_current_stock('test_CarRentalStock.csv')
         self.assertEqual(len(car_rental.get_diesel_cars()), 10)        
         self.assertEqual(len(car_rental.get_electric_cars()), 6)        
         self.assertEqual(len(car_rental.get_hybrid_cars()), 4)        
-        self.assertEqual(len(car_rental.get_petrol_cars()), 20)        
-        
+        self.assertEqual(len(car_rental.get_petrol_cars()), 20)
+        # Renting
+        car_rental.rent_cars('p', 3)
+        rented_cars = len([1 for car in car_rental.get_petrol_cars() 
+                if car.get_is_rented() == True])
+        self.assertEqual(rented_cars, 3, 
+                 'The petrol cars list has not been updated correctly with the # of rented cars.')
+        # Returns validation
+        self.assertTrue(
+                car_rental.is_rented_car_registration('p', '01 P 1002'))        
+        self.assertFalse(
+                car_rental.is_rented_car_registration('p', '06 G 1002'))
+        # Returns
+        car_rental.return_validated_cars('p', ['01 P 1002','01 P 1003'])
+        rented_cars = len([1 for car in car_rental.get_petrol_cars() 
+                            if car.get_is_rented() == True])
+        self.assertEqual(rented_cars, 1,
+                 'The returned cars have not been updated correctly in the petrol cars list.')
+
 if __name__ == "__main__":
     unittest.main()
