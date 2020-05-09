@@ -20,4 +20,5 @@ def main():
     print('The card details have been exported to file {0}.'
           .format(file_name))
 
-main()
+if __name__ == '__main__':
+    main()

@@ -37,6 +37,14 @@ class TestSequenceCalculator(unittest.TestCase):
         with self.assertRaises(TypeError):
             self.__sequenceCalculator.sum(self.__bad_sequence)
 
+    def test_cube(self):
+        # Tests the calculator cube() function.
+        result = [729, 8000, 64, 1331, -343, 5832, 2460.375]
+        self.assertEqual(result, 
+                         self.__sequenceCalculator.cube(self.__test_seq1))
+        with self.assertRaises(TypeError):
+            self.__sequenceCalculator.cube(self.__bad_sequence)
+
     def test_add(self):
         # Tests the calculator add() function.
         result = [ 30, 35.5, 10, 2, -20, 20, 20 ]
@@ -52,14 +60,32 @@ class TestSequenceCalculator(unittest.TestCase):
             list(self.__sequenceCalculator.is_even(self.__bad_sequence))
 
     def test_greater_than_mean(self):
+        # Tests the calculation greater_than_mean() function.
         self.assertEqual([ 20, 11, 18, 13.5 ], 
                          list(self.__sequenceCalculator
                               .greater_than_mean(self.__test_seq1)))
 
     def test_to_fahrenheit(self):
-        result = [ 48.2, 68.0, 39.2, 51.8, 19.4, 64.4, 56.3 ]
+        # Tests the calculator to_fahrenheit() function to convert 
+        #   celcius to fahrenheit.
+        seq = [0, 100] + self.__test_seq1
+        result = [32, 212, 48.2, 68.0, 39.2, 51.8, 19.4, 64.4, 56.3 ]
         self.assertEqual(result, self.__sequenceCalculator
-                             .to_fahrenheit(self.__test_seq1))
+                                 .to_fahrenheit(seq))
+
+    def test_fibonacci(self):
+        # Tests the calculator fibonacci series range function.
+        result = [21, 34, 55, 89]
+        self.assertEqual(result, 
+                         list(self.__sequenceCalculator.fibonacci(20, 100)))
+
+    def test_primes(self):
+        # Tests the calculator fibonacci series range function.
+        result = [53, 59, 61, 67, 71, 73, 79, 83, 89, 97]
+        self.assertEqual(result, 
+                         list(self.__sequenceCalculator.primes(50, 100)))
+        self.assertEqual(70, 
+                         len(list(self.__sequenceCalculator.primes(0, 350))))
         
 if __name__ == '__main__':
     unittest.main()
