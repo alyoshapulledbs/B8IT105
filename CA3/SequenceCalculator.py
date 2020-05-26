@@ -12,6 +12,7 @@ Student Name : Alyosha Pulle
 from functools import reduce
 
 class SequenceCalculator():
+    # 10 function calculator based on sequences.
     
     def min(self, values):
         # Get the mimimum value in a sequence.
