@@ -85,6 +85,25 @@ class CustomerSpending():
         plt.ylabel('Annual Spending')
         plt.show()
 
+    def plot_spending_by_product(self, region='All'):
+        # Annual spending by product category in region.
+        df = self.__df_spending
+        if region == 'All':
+            regionText = 'All Regions'
+        else:
+            regionText = region
+            df = df[df['Region'] == region]
+        df = (df.loc[:, ['Channel'] + self.__product_categories].groupby(['Channel'])
+                .sum()
+                .stack()
+                .unstack(0))
+        plt.figure();
+        df.plot.bar()
+        plt.title('Annual Spending By Product Category\nFor {}'.format(regionText))
+        plt.xlabel('Product Categories')
+        plt.ylabel('Annual Spending')
+        plt.show()
+
     def plot_distribution(self, channel='Horeca', region='All'):
         # Annual Spending Distribution By Product Category
         # Filtered by Channel and optionally Region
@@ -114,11 +133,14 @@ def main():
     cs.plot_summary_counts()
     cs.plot_summary_spending_totals()
     
-    cs.plot_distribution()      # Horeca
+    cs.plot_distribution()
     cs.plot_distribution(channel='Retail')
     
-    cs.plot_distribution(region='Lisbon')      # Horeca
+    cs.plot_distribution(region='Lisbon')
     cs.plot_distribution(channel='Retail', region='Lisbon')
+
+    cs.plot_spending_by_product()
+    cs.plot_spending_by_product(region='Lisbon')
 
 if __name__ == '__main__':
     main()
